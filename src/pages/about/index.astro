@@ -1,0 +1,17 @@
+---
+import Layout from "../../layouts/layout.astro";
+import { CmsArtistRepository } from "../../repositories/artist";
+import { ArtistService } from "../../services/artist";
+
+const artists = await new ArtistService(new CmsArtistRepository()).findArtists();
+---
+
+<Layout>
+    <div class="container mx-auto mt-5">
+        <div class="flex flex-col items-center">
+            <h1 class="text-xl mb-7">このサイトについて</h1>
+            <p>Yotubeやbilibli等で公開されているギター・ベース用のTab譜をまとめています。</p>
+            <p>当サイトで公開されているコンテンツの著作権等は、各権利所有者に帰属します。</p>
+        </div>
+    </div>
+</Layout>

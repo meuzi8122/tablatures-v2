@@ -1,0 +1,26 @@
+---
+import Navbar from "../components/navbar.astro";
+import { SITE_TITLE } from "../constant";
+import "../styles/global.css";
+
+type Props = {
+    title?: string;
+};
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <meta name="generator" content={Astro.generator} />
+        <title>{title ? `${title} - ${SITE_TITLE}` : SITE_TITLE}</title>
+    </head>
+    <body>
+        <Navbar />
+        <slot />
+    </body>
+</html>

@@ -1,0 +1,40 @@
+---
+import SongList from "../../components/song-list/song-list.astro";
+import type { Artist, Song } from "../../entity";
+import Layout from "../../layouts/layout.astro";
+import { CmsArtistRepository } from "../../repositories/artist";
+import { CmsSongRepository } from "../../repositories/song";
+import { ArtistService } from "../../services/artist";
+import { SongService } from "../../services/song";
+
+type Props = {
+    artist: Artist;
+    songs: Song[];
+};
+
+export async function getStaticPaths() {
+    const artists = await new ArtistService(new CmsArtistRepository()).findArtists();
+
+    const songService = new SongService(new CmsSongRepository());
+
+    return (await Promise.all(artists.map((artist) => songService.findSongsByArtist(artist.id)))).map(
+        (songs, index) => ({
+            params: {
+                artistId: artists[index].id,
+            },
+            props: {
+                artist: artists[index],
+                songs,
+            },
+        }),
+    );
+}
+
+const { artist, songs } = Astro.props;
+---
+
+<Layout>
+    <div class="container mx-auto mt-5 flex flex-col">
+        <SongList label={`${artist.name}のTab譜`} songs={songs} />
+    </div>
+</Layout>

@@ -1,0 +1,29 @@
+---
+import { Image } from "astro:assets";
+import type { Song } from "../../entity";
+import TabLinkButton from "./tab-link-button.astro";
+
+type Props = {
+    song: Song;
+};
+
+const { song } = Astro.props;
+---
+
+<li class="list-row">
+    <div>
+        <Image
+            src={song.artworkUrl ? song.artworkUrl : import("../../assets/no_image.jpg")}
+            class="size-10 rounded-box"
+            alt="artwork"
+        />
+    </div>
+    <div>
+        <div>{song.title}</div>
+        <a href={`/songs/${song.artist.id}`} class="text-xs uppercase font-semibold opacity-60">{song.artist.name}</a>
+    </div>
+    <div class="join join-vertical sm:join-horizontal">
+        <TabLinkButton href={song.tablatures.get("guitar")?.link} label="Guitar" />
+        <TabLinkButton href={song.tablatures.get("bass")?.link} label="Bass" />
+    </div>
+</li>
