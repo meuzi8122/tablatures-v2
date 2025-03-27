@@ -23,7 +23,6 @@ const { song } = Astro.props;
         <a href={`/songs/${song.artist.id}`} class="text-xs uppercase font-semibold opacity-60">{song.artist.name}</a>
     </div>
     <div class="join join-vertical sm:join-horizontal">
-        <TabLinkButton href={song.tablatures.get("guitar")?.link} label="Guitar" />
-        <TabLinkButton href={song.tablatures.get("bass")?.link} label="Bass" />
+        <TabLinkButton href={song.tablature.link} />
     </div>
 </li>

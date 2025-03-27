@@ -9,6 +9,6 @@ export class SongService {
     }
 
     async findLatestSongs(): Promise<Song[]> {
-        return await this.songRepository.findSongs({ orderBy: { name: "title", desc: true }, limit: 7 });
+        return await this.songRepository.findSongs({ orderBy: { name: "title", desc: true }, limit: 5 });
     }
 }

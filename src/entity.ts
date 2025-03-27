@@ -3,13 +3,11 @@ export type Artist = {
     name: string;
 };
 
-type Instrument = string;
-
 export type Song = {
     id: string;
     title: string;
     artist: Artist;
-    tablatures: Map<Instrument, Tablature>;
+    tablature: Tablature;
     artworkUrl?: string;
 };
 

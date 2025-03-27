@@ -1,5 +1,5 @@
 import { cmsClient } from "../cms";
-import type { Song, Tablature } from "../entity";
+import type { Song } from "../entity";
 
 type SongSearchQuery = {
     artistId?: string;
@@ -51,9 +51,19 @@ export class CmsSongRepository implements SongRepository {
             });
         }
 
-        return contents.map((content) => ({
-            ...content,
-            tablatures: new Map(content.tablatures.map((tablature: Tablature) => [tablature.instrument[0], tablature])),
-        }));
+        let songs: Song[] = [];
+
+        for (const content of contents) {
+            for (const tablature of content.tablatures) {
+                songs.push({
+                    id: content.id,
+                    title: `${content.title} (${tablature.instrument[0]})`,
+                    artist: content.artist,
+                    tablature: { ...tablature, instrument: tablature.instrument[0] },
+                });
+            }
+        }
+
+        return songs.slice(0, queries.limit ? queries.limit : songs.length);
     }
 }
