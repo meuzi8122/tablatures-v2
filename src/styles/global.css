@@ -1,4 +1,30 @@
+/* v4からの読み込み方 */
 @import "tailwindcss";
+
+/* v4から以下は不要 */
+/* @tailwind base; */
+/* @tailwind components; */
+/* @tailwind utilities; */
+
 @plugin "daisyui" {
     themes: abyss --default;
+}
+
+/* base → components → utilitiesの順で優先 */
+@layer components {
+    .container {
+        max-width: 90%;
+        @screen sm {
+            max-width: 600px;
+        }
+        @screen md {
+            max-width: 700px;
+        }
+        @screen lg {
+            max-width: 900px;
+        }
+        @screen xl {
+            max-width: 1200px;
+        }
+    }
 }
