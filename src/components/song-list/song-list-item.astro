@@ -20,7 +20,7 @@ const { song } = Astro.props;
     </div>
     <div>
         <div>{song.title}</div>
-        <a href={`/songs/${song.artist.id}`} class="text-xs uppercase font-semibold opacity-60">{song.artist.name}</a>
+        <a href={`/songs/${song.artist.id}`} class="text-xs font-semibold opacity-60">{song.artist.name}</a>
     </div>
     <div class="join join-vertical sm:join-horizontal">
         <TabLinkButton href={song.tablature.link} />
