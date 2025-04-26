@@ -1,0 +1,22 @@
+---
+import type { Artist } from "../../../clients/model";
+import ListImage from "../list-image.astro";
+
+type Props = {
+    artist: Artist;
+};
+
+const { artist } = Astro.props;
+---
+
+<li class="list-row">
+    <div>
+        <ListImage alt="artist image" src={artist.imageUrl} />
+    </div>
+    <div>
+        <div>
+            <a class="link link-hover" href={`/tablatures/${artist.id}`}>{artist.name}</a>
+        </div>
+        <span class="text-xs font-semibold opacity-60"></span>
+    </div>
+</li>

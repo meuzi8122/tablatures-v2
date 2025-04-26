@@ -1,0 +1,46 @@
+---
+import type { GetStaticPathsOptions } from "astro";
+// import Layout from "../../layouts/layout.astro";
+import Layout from "../../../layouts/layout.astro";
+import type { Artist, Tablature } from "../../../clients/model";
+import { TablatureClient } from "../../../clients/tablature";
+import TablatureList from "../../../components/list/tablature/tablature-list.astro";
+
+type Props = {
+    artist: Artist;
+    page: { [key: string]: any };
+};
+
+export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
+    const tablatures = await TablatureClient.getALLTablatures();
+
+    let items: { [id: Artist["id"]]: { artist: Artist; tablatures: Tablature[] } } = {};
+    for (const tablature of tablatures) {
+        if (!(tablature.artist.id in items)) {
+            items[tablature.artist.id] = { artist: tablature.artist, tablatures: [] };
+        }
+        items[tablature.artist.id]["tablatures"].push(tablature);
+    }
+
+    return Object.values(items).flatMap((item) =>
+        paginate(item.tablatures, {
+            params: { artistId: item.artist.id },
+            props: { artist: item.artist },
+            pageSize: 10,
+        }),
+    );
+}
+
+// レコード数はpage.totalで取得できる
+const {
+    artist,
+    page: { currentPage, lastPage, data },
+} = Astro.props;
+---
+
+<Layout>
+    <div class="container mx-auto mt-5 flex flex-col">
+        {artist.name}
+        <TablatureList label={`${lastPage}ページ中${currentPage}ページ目を表示`} tablatures={data} />
+    </div>
+</Layout>

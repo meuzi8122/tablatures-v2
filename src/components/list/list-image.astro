@@ -1,0 +1,12 @@
+---
+import { Image } from "astro:assets";
+
+type Props = {
+    src?: string;
+    alt: string;
+};
+
+const { alt, src } = Astro.props;
+---
+
+<Image src={src ? src : import("../../assets/no_image.jpg")} class="size-10 rounded-box" alt={alt} />

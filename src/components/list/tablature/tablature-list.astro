@@ -1,0 +1,16 @@
+---
+import type { Tablature } from "../../../clients/model";
+import TablatureListItem from "./tablature-list-item.astro";
+
+type Props = {
+    label: string;
+    tablatures: Tablature[];
+};
+
+const { label, tablatures } = Astro.props;
+---
+
+<ul class="list bg-base-100 rounded-box shadow-md">
+    <li class="p-4 pb-2 text-xs opacity-60 tracking-wide">{label}</li>
+    {tablatures.map((tablature) => <TablatureListItem tablature={tablature} />)}
+</ul>

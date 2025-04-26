@@ -1,0 +1,26 @@
+---
+import type { Tablature } from "../../../clients/model";
+import ListImage from "../list-image.astro";
+
+type Props = {
+    tablature: Tablature;
+};
+
+const { tablature } = Astro.props;
+---
+
+<li class="list-row">
+    <div>
+        <ListImage alt="artwork" src={tablature.artworkUrl} />
+    </div>
+    <div>
+        <div>
+            <a class="link link-hover" href={tablature.url} target="_blank"
+                >{`${tablature.title} (${tablature.instrument})`}</a
+            >
+        </div>
+        <a class="link link-hover" href={`/tablatures/${tablature.artist.id}`} class="text-xs font-semibold opacity-60"
+            >{`${tablature.artist.name}`}</a
+        >
+    </div>
+</li>

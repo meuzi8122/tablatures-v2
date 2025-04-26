@@ -1,14 +1,13 @@
 ---
-import SongList from "../components/song-list/song-list.astro";
+import { ArtistClient } from "../clients/artist";
+import ArtistList from "../components/list/artist/artist-list.astro";
 import Layout from "../layouts/layout.astro";
-import { CmsSongRepository } from "../repositories/song";
-import { SongService } from "../services/song";
 
-const songs = await new SongService(new CmsSongRepository()).findLatestSongs();
+const artists = await ArtistClient.getALLArtists();
 ---
 
 <Layout>
-    <div class="container mx-auto mt-5 sm:max-width-900">
-        <SongList label="最近追加されたTab譜" songs={songs} />
+    <div class="container mx-auto mt-5">
+        <ArtistList label="" artists={artists} />
     </div>
 </Layout>

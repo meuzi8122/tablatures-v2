@@ -1,0 +1,16 @@
+---
+import type { Artist } from "../../../clients/model";
+import ArtistListItem from "./artist-list-item.astro";
+
+type Props = {
+    label: string;
+    artists: Artist[];
+};
+
+const { label, artists } = Astro.props;
+---
+
+<ul class="list bg-base-100 rounded-box shadow-md">
+    <li class="p-4 pb-2 text-xs opacity-60 tracking-wide">{label}</li>
+    {artists.map((artist) => <ArtistListItem artist={artist} />)}
+</ul>
