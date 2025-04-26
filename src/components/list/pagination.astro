@@ -1,0 +1,18 @@
+---
+type Props = {
+    path: string;
+    currentPage: number;
+    lastPage: number;
+};
+
+const { path, currentPage, lastPage } = Astro.props;
+
+const prevPage = currentPage < 2 ? currentPage : currentPage - 1;
+const nextPage = lastPage <= currentPage ? currentPage : lastPage;
+---
+
+<div class="join mt-5 justify-center">
+    <a class="join-item btn" href={`${path}/${prevPage}`}>«</a>
+    <button class="join-item btn">Page {`${currentPage} / ${lastPage}`}</button>
+    <a class="join-item btn" href={`${path}/${nextPage}`}>»</a>
+</div>

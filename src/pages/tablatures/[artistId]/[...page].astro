@@ -1,10 +1,10 @@
 ---
 import type { GetStaticPathsOptions } from "astro";
-// import Layout from "../../layouts/layout.astro";
 import Layout from "../../../layouts/layout.astro";
 import type { Artist, Tablature } from "../../../clients/model";
 import { TablatureClient } from "../../../clients/tablature";
 import TablatureList from "../../../components/list/tablature/tablature-list.astro";
+import Pagination from "../../../components/list/pagination.astro";
 
 type Props = {
     artist: Artist;
@@ -40,7 +40,8 @@ const {
 
 <Layout>
     <div class="container mx-auto mt-5 flex flex-col">
-        {artist.name}
-        <TablatureList label={`${lastPage}ページ中${currentPage}ページ目を表示`} tablatures={data} />
+        <h1 class="text-xl mb-7 text-center">{artist.name}のTAB譜</h1>
+        <TablatureList tablatures={data} />
+        <Pagination path="/tablatures" currentPage={currentPage} lastPage={lastPage} />
     </div>
 </Layout>

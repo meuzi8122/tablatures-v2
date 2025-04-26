@@ -1,13 +1,19 @@
 ---
 import { ArtistClient } from "../clients/artist";
+import { TablatureClient } from "../clients/tablature";
 import ArtistList from "../components/list/artist/artist-list.astro";
+import TablatureList from "../components/list/tablature/tablature-list.astro";
 import Layout from "../layouts/layout.astro";
 
 const artists = await ArtistClient.getALLArtists();
+const tablatures = await TablatureClient.getALLTablatures();
 ---
 
 <Layout>
     <div class="container mx-auto mt-5">
-        <ArtistList label="" artists={artists} />
+        <div class="flex flex-col">
+            <ArtistList artists={artists} />
+            <TablatureList tablatures={tablatures} />
+        </div>
     </div>
 </Layout>

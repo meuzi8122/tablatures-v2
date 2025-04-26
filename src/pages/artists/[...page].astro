@@ -1,0 +1,27 @@
+---
+import type { GetStaticPathsOptions } from "astro";
+import ArtistList from "../../components/list/artist/artist-list.astro";
+import Layout from "../../layouts/layout.astro";
+import { ArtistClient } from "../../clients/artist";
+import Pagination from "../../components/list/pagination.astro";
+
+export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
+    const artists = await ArtistClient.getALLArtists();
+
+    return paginate(artists, { pageSize: 10 });
+}
+
+const {
+    page: { currentPage, lastPage, data },
+} = Astro.props;
+---
+
+<Layout>
+    <div class="container mx-auto mt-5">
+        <div class="flex flex-col">
+            <h1 class="text-xl mb-7 text-center">掲載アーティスト一覧</h1>
+            <ArtistList artists={data} />
+            <Pagination path="/artists" currentPage={currentPage} lastPage={lastPage} />
+        </div>
+    </div></Layout
+>
