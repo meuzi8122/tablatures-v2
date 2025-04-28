@@ -1,0 +1,63 @@
+---
+import { TablatureClient } from "../../clients/tablature";
+import type { TablatureDetail } from "../../clients/model";
+import Layout from "../../layouts/layout.astro";
+import LinkIcon from "../../components/icon/link-icon.astro";
+
+export async function getStaticPaths() {
+    const tablatures = await TablatureClient.getAllTablatureDetails();
+
+    return tablatures.map((tablature) => ({
+        params: {
+            id: tablature.id,
+        },
+        props: {
+            tablature,
+        },
+    }));
+}
+
+type Props = {
+    tablature: TablatureDetail;
+};
+
+const { tablature } = Astro.props;
+---
+
+<Layout>
+    <div class="container mx-auto mt-5 flex flex-col">
+        <h1 class="text-xl text-center">TAB譜詳細</h1>
+        <div class="overflow-x-auto mt-5">
+            <table class="table table-zebra">
+                <tbody>
+                    <tr>
+                        <th>楽曲タイトル</th>
+                        <td>{tablature.title}</td>
+                    </tr>
+                    <tr>
+                        <th>アーティスト</th>
+                        <td>{tablature.artist.name}</td>
+                    </tr>
+                    <tr>
+                        <th>楽器</th>
+                        <td>{tablature.instrument}</td>
+                    </tr>
+                    <tr>
+                        <th>TAB譜の作者</th>
+                        <td>{tablature.author || "-"}</td>
+                    </tr>
+                    <tr>
+                        <th>配信元サイト</th>
+                        <td>{tablature.source || "-"}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="flex justify-center mt-8">
+            <a class="btn btn-primary" href={tablature.url} target="_blank">
+                <LinkIcon />
+                TAB譜を閲覧
+            </a>
+        </div>
+    </div>
+</Layout>

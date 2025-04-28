@@ -24,7 +24,7 @@ export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
 
     return Object.values(items).flatMap((item) =>
         paginate(item.tablatures, {
-            params: { artistId: item.artist.id },
+            params: { id: item.artist.id },
             props: { artist: item.artist },
             pageSize: 10,
         }),
@@ -42,6 +42,6 @@ const {
     <div class="container mx-auto mt-5 flex flex-col">
         <h1 class="text-xl mb-7 text-center">{artist.name}のTAB譜</h1>
         <TablatureList tablatures={data} />
-        <Pagination path="/tablatures" currentPage={currentPage} lastPage={lastPage} />
+        <Pagination path="/artists" currentPage={currentPage} lastPage={lastPage} />
     </div>
 </Layout>

@@ -8,13 +8,13 @@ const client = createClient({
 export class CmsClient {
     constructor(private endpoint: string) {}
 
-    async getALLContents(fields: string, orders: string, filters?: string) {
+    async getALLContents(fields: string, options: { orders?: string; filters?: string } = {}) {
         return await client.getAllContents({
             endpoint: this.endpoint,
             queries: {
                 fields,
-                filters,
-                orders,
+                filters: options.filters,
+                orders: options.orders,
             },
         });
     }

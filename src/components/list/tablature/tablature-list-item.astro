@@ -1,5 +1,6 @@
 ---
 import type { Tablature } from "../../../clients/model";
+import InformationIcon from "../../icon/information-icon.astro";
 import ListImage from "../list-image.astro";
 
 type Props = {
@@ -14,13 +15,14 @@ const { tablature } = Astro.props;
         <ListImage alt="artwork" src={tablature.artworkUrl} />
     </div>
     <div>
-        <div>
-            <a class="link link-hover" href={tablature.url} target="_blank"
-                >{`${tablature.title} (${tablature.instrument})`}</a
-            >
-        </div>
-        <a class="link link-hover" href={`/tablatures/${tablature.artist.id}`} class="text-xs font-semibold opacity-60"
-            >{`${tablature.artist.name}`}</a
+        <div>{`${tablature.title} (${tablature.instrument})`}</div>
+        <a
+            class="link link-hover text-xs font-semibold opacity-60"
+            href={`/tablatures/${tablature.artist.id}`}
+            class="text-xs font-semibold opacity-60">{`${tablature.artist.name}`}</a
         >
     </div>
+    <a href={`/tablatures/${tablature.id}`} class="btn btn-square btn-ghost">
+        <InformationIcon />
+    </a>
 </li>
