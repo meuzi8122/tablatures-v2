@@ -12,7 +12,7 @@ const nextPage = lastPage <= currentPage ? currentPage : lastPage;
 ---
 
 <div class="join mt-5 justify-center">
-    <a class="join-item btn" href={`${path}/${prevPage}`}>«</a>
-    <button class="join-item btn">Page {`${currentPage} / ${lastPage}`}</button>
-    <a class="join-item btn" href={`${path}/${nextPage}`}>»</a>
+    <a class="join-item btn btn-ghost" href={`${path}/${prevPage}`}>«</a>
+    <button class="join-item btn btn-ghost">Page {`${currentPage} / ${lastPage}`}</button>
+    <a class="join-item btn btn-ghost" href={`${path}/${nextPage}`}>»</a>
 </div>
