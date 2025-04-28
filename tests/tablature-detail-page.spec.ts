@@ -1,22 +1,25 @@
-import { test } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 test("TAB譜詳細画面のテスト", async ({ page }) => {
-    await page.goto("/tablatures/test-tablature-1");
+    await page.route("*/**/api/v1/tablatures", async (route) => {
+        await route.fulfill({
+            json: [
+                {
+                    id: "test-tablature-1",
+                    title: "TEAT_TABLATURE_1",
+                    artist: {
+                        id: "test-artist-1",
+                        name: "TEST_ARTIST_1",
+                    },
+                    instrument: "エレキギター",
+                },
+            ],
+        });
+    });
+
+    // TODO: ホスト名を省略するとinvalid url
+    await page.goto("http://localhost:4321/tablatures/test-tablature-1");
+
+    await expect(page).toHaveTitle("TEST_TABLATURE_1 - TEST_ARTIST_1(エレキギター) | TablatureDB");
+    await expect(page.getByRole("cell", { name: "TEST_TABLATURE_1" })).toBeVisible();
 });
-
-// test('has title', async ({ page }) => {
-//   await page.goto('https://playwright.dev/');
-
-//   // Expect a title "to contain" a substring.
-//   await expect(page).toHaveTitle(/Playwright/);
-// });
-
-// test('get started link', async ({ page }) => {
-//   await page.goto('https://playwright.dev/');
-
-//   // Click the get started link.
-//   await page.getByRole('link', { name: 'Get started' }).click();
-
-//   // Expects page to have a heading with the name of Installation.
-//   await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
-// });

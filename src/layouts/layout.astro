@@ -8,7 +8,7 @@ type Props = {
     hasNavbar?: boolean;
 };
 
-const { title = SITE_TITLE, hasNavbar = true } = Astro.props;
+const { title, hasNavbar = true } = Astro.props;
 ---
 
 <!doctype html>
@@ -18,7 +18,7 @@ const { title = SITE_TITLE, hasNavbar = true } = Astro.props;
         <meta name="viewport" content="width=device-width" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <meta name="generator" content={Astro.generator} />
-        <title>{title}</title>
+        <title>{title ? `${title} | ${SITE_TITLE}` : SITE_TITLE}</title>
     </head>
     <body>
         {hasNavbar && <Navbar />}

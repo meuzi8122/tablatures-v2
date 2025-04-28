@@ -24,7 +24,7 @@ type Props = {
 const { tablature } = Astro.props;
 ---
 
-<Layout>
+<Layout title={`${tablature.title} - ${tablature.artist.name}(${tablature.instrument})`}>
     <div class="container mx-auto mt-5 flex flex-col">
         <h1 class="text-xl text-center">TAB譜詳細</h1>
         <div class="overflow-x-auto mt-5">
