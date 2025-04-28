@@ -10,6 +10,7 @@
     "test": "npx playwright test"
   },
   "dependencies": {
+    "@astrojs/vercel": "^8.1.4",
     "@tailwindcss/vite": "^4.0.9",
     "astro": "^5.4.1",
     "daisyui": "^5.0.0",
