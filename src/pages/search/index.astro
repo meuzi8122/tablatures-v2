@@ -1,0 +1,21 @@
+---
+import { TablatureClient } from "../../clients/tablature";
+import Pagination from "../../components/list/pagination.astro";
+import TablatureList from "../../components/list/tablature/tablature-list.astro";
+import Layout from "../../layouts/layout.astro";
+
+export const prerender = false;
+
+const { searchParams } = new URL(Astro.request.url);
+const keyword = searchParams.get("keyword");
+
+const tablatures = keyword ? await TablatureClient.findTablatures(keyword) : [];
+---
+
+<Layout>
+    <div class="container mx-auto mt-5 flex flex-col">
+        <h1 class="text-xl mb-7 text-center">"{keyword}"の検索結果</h1>
+        <TablatureList tablatures={tablatures} />
+        <Pagination path="/artists" currentPage={1} lastPage={1} />
+    </div>
+</Layout>

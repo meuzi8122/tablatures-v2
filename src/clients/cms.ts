@@ -5,10 +5,12 @@ const client = createClient({
     apiKey: import.meta.env.API_KEY as string,
 });
 
+type CmsFetchOption = { orders?: string; filters?: string };
+
 export class CmsClient {
     constructor(private endpoint: string) {}
 
-    async getALLContents(fields: string, options: { orders?: string; filters?: string } = {}) {
+    async getALLContents(fields: string, options: CmsFetchOption = {}) {
         return await client.getAllContents({
             endpoint: this.endpoint,
             queries: {
@@ -17,5 +19,20 @@ export class CmsClient {
                 orders: options.orders,
             },
         });
+    }
+
+    async findContents(fields: string, options: CmsFetchOption & { limit: number; offset: number }) {
+        const res = await client.getList({
+            endpoint: this.endpoint,
+            queries: {
+                fields,
+                filters: options.filters,
+                orders: options.orders,
+                limit: options.limit,
+                offset: options.offset,
+            },
+        });
+
+        return res.contents;
     }
 }

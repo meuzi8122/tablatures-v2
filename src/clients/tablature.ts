@@ -20,7 +20,15 @@ export class TablatureClient {
     }
 
     static async findTablatures(keyword: string): Promise<Tablature[]> {
-        throw Error("Not Implemented");
+        const contents = await new CmsClient(this.endpoint).findContents(
+            "id,title,artist.id,artist.name,instrument,url,artworkUrl",
+            {
+                filters: `title[contains]${keyword}`,
+                limit: 10,
+                offset: 0,
+            },
+        );
+        return contents.map((content) => this.parseTablature(content));
     }
 
     /* TODO: zodでレスポンスをバリデーションする？ */
