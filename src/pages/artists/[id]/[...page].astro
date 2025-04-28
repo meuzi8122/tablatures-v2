@@ -5,6 +5,7 @@ import type { Artist, Tablature } from "../../../clients/model";
 import { TablatureClient } from "../../../clients/tablature";
 import TablatureList from "../../../components/list/tablature/tablature-list.astro";
 import Pagination from "../../../components/list/pagination.astro";
+import { PER_PAGE_TABLATURE_COUNT } from "../../../constant";
 
 type Props = {
     artist: Artist;
@@ -26,7 +27,7 @@ export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
         paginate(item.tablatures, {
             params: { id: item.artist.id },
             props: { artist: item.artist },
-            pageSize: 10,
+            pageSize: PER_PAGE_TABLATURE_COUNT,
         }),
     );
 }

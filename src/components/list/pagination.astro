@@ -3,16 +3,20 @@ type Props = {
     path: string;
     currentPage: number;
     lastPage: number;
+    hasPageQueryParam?: boolean;
 };
 
-const { path, currentPage, lastPage } = Astro.props;
+const { path, currentPage, lastPage, hasPageQueryParam = false } = Astro.props;
 
 const prevPage = currentPage < 2 ? currentPage : currentPage - 1;
 const nextPage = lastPage <= currentPage ? currentPage : lastPage;
+
+const prevPageHref = hasPageQueryParam ? `/${path}&page=${prevPage}` : `/${path}/${prevPage}`;
+const nextPageHref = hasPageQueryParam ? `/${path}&page=${nextPage}` : `/${path}/${nextPage}`;
 ---
 
 <div class="join mt-5 justify-center">
-    <a class="join-item btn btn-ghost" href={`${path}/${prevPage}`}>«</a>
+    <a class="join-item btn btn-ghost" href={prevPageHref}>«</a>
     <button class="join-item btn btn-ghost">Page {`${currentPage} / ${lastPage}`}</button>
-    <a class="join-item btn btn-ghost" href={`${path}/${nextPage}`}>»</a>
+    <a class="join-item btn btn-ghost" href={nextPageHref}>»</a>
 </div>

@@ -1,5 +1,11 @@
+import { PER_PAGE_TABLATURE_COUNT } from "../constant";
 import { CmsClient } from "./cms";
 import type { Tablature, TablatureDetail } from "./model";
+
+type TablatureSearchResult = {
+    tablatures: Tablature[];
+    lastPage: number;
+};
 
 export class TablatureClient {
     private static endpoint = "tablatures";
@@ -19,16 +25,20 @@ export class TablatureClient {
         return contents.map((content) => this.parseTablatureDetail(content));
     }
 
-    static async findTablatures(keyword: string): Promise<Tablature[]> {
-        const contents = await new CmsClient(this.endpoint).findContents(
+    static async findTablatures(keyword: string): Promise<TablatureSearchResult> {
+        const { total, contents } = await new CmsClient(this.endpoint).findContents(
             "id,title,artist.id,artist.name,instrument,url,artworkUrl",
             {
                 filters: `title[contains]${keyword}`,
-                limit: 10,
+                limit: PER_PAGE_TABLATURE_COUNT,
                 offset: 0,
             },
         );
-        return contents.map((content) => this.parseTablature(content));
+
+        return {
+            tablatures: contents.map((content) => this.parseTablature(content)),
+            lastPage: Math.ceil(total / PER_PAGE_TABLATURE_COUNT),
+        };
     }
 
     /* TODO: zodでレスポンスをバリデーションする？ */

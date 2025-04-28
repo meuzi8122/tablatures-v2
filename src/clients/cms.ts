@@ -33,6 +33,9 @@ export class CmsClient {
             },
         });
 
-        return res.contents;
+        return {
+            contents: res.contents,
+            total: res.totalCount,
+        };
     }
 }
