@@ -1,19 +1,36 @@
 ---
-import { ArtistClient } from "../clients/artist";
-import { TablatureClient } from "../clients/tablature";
-import ArtistList from "../components/list/artist/artist-list.astro";
-import TablatureList from "../components/list/tablature/tablature-list.astro";
+import SearchIcon from "../components/icon/search-icon.astro";
+import { SITE_TITLE } from "../constant";
 import Layout from "../layouts/layout.astro";
-
-const artists = await ArtistClient.getALLArtists();
-const tablatures = await TablatureClient.getALLTablatures();
 ---
 
-<Layout>
-    <div class="container mx-auto mt-5">
-        <div class="flex flex-col">
-            <ArtistList artists={artists} />
-            <TablatureList tablatures={tablatures} />
+<Layout hasNavbar={false}>
+    <div class="hero bg-base-200 min-h-screen">
+        <div class="hero-content flex-col lg:flex-row-reverse">
+            <div class="text-center lg:text-left">
+                <h1 class="text-5xl font-bold">{SITE_TITLE}</h1>
+                <p class="py-6">
+                    ギター・ベースのTAB譜をまとめています。<br />
+                    当サイトに掲載されているコンテンツの権利は、各権利所有者に帰属します。
+                </p>
+            </div>
+            <div class="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+                <div class="card-body">
+                    <form action="/tablatures/search" method="GET">
+                        <fieldset class="fieldset">
+                            <label class="label">曲名・アーティスト名で検索</label>
+                            <input name="keyword" type="text" class="input" placeholder="曲名・アーティスト名を入力" />
+                            <button type="submit" class="btn btn-neutral mt-4">
+                                <SearchIcon />
+                                TAB譜を検索
+                            </button>
+                        </fieldset>
+                    </form>
+                    <div class="flex justify-center mt-5">
+                        <a class="link link-hover" href="/artists">掲載アーティスト一覧</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </Layout>
