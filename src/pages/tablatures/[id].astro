@@ -36,7 +36,7 @@ const { tablature } = Astro.props;
                     <tr>
                         <th>アーティスト</th>
                         <td class="text-right">
-                            <a class="link link-primary" href={`/artists/${tablature.artist.id}`}>
+                            <a class="link" href={`/artists/${tablature.artist.id}`}>
                                 {tablature.artist.name}
                             </a>
                         </td>
@@ -46,9 +46,13 @@ const { tablature } = Astro.props;
                         <td class="text-right">{tablature.instrument}</td>
                     </tr>
                     <tr>
+                        <th>備考</th>
+                        <td class="text-right">{tablature.note}</td>
+                    </tr>
+                    <tr>
                         <th>配信元サイト</th>
                         <td class="text-right">
-                            <a class="link link-secondary" href={tablature.url} target="_blank">
+                            <a class="link link-primary" href={tablature.url} target="_blank">
                                 {tablature.source}
                             </a>
                         </td>

@@ -15,7 +15,7 @@ export class TablatureClient {
 
     static async getAllTablatureDetails(): Promise<TablatureDetail[]> {
         const contents = await new CmsClient(this.endpoint).findContents({
-            fields: "id,title,artist.id,artist.name,instrument,url,artworkUrl,source",
+            fields: "id,title,artist.id,artist.name,instrument,url,artworkUrl,source,note",
         });
         return contents.map((content) => this.parseTablatureDetail(content));
     }
@@ -62,6 +62,6 @@ export class TablatureClient {
     }
 
     private static parseTablatureDetail(content: any): TablatureDetail {
-        return { ...this.parseTablature(content), source: content.source || "サイト名不明" };
+        return { ...this.parseTablature(content), source: content.source || "サイト名不明", note: content.note || "" };
     }
 }

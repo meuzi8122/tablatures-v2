@@ -15,4 +15,5 @@ export type Tablature = {
 
 export type TablatureDetail = Tablature & {
     source: string; // 配信元サイト（Youtube, songsterなど）
+    note: string;
 };
