@@ -20,7 +20,7 @@ export class TablatureClient {
 
     static async getAllTablatureDetails(): Promise<TablatureDetail[]> {
         const contents = await new CmsClient(this.endpoint).getALLContents(
-            "id,title,artist.id,artist.name,instrument,url,artworkUrl,author,source",
+            "id,title,artist.id,artist.name,instrument,url,artworkUrl,source",
         );
         return contents.map((content) => this.parseTablatureDetail(content));
     }
