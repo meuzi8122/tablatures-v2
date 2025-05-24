@@ -6,16 +6,28 @@ import Layout from "../../layouts/layout.astro";
 
 export const prerender = false;
 
-const { searchParams, host } = new URL(Astro.request.url);
+const { searchParams } = new URL(Astro.request.url);
 const keyword = searchParams.get("keyword");
-const currentPage = Number(searchParams.get("page")) || 1;
 
-const tablatures = await TablatureClient.findTablatures(keyword || "");
+const tablatures = keyword ? await TablatureClient.findTablatures(keyword) : [];
 ---
 
 <Layout title={`"${keyword}"の検索結果`}>
-    <div class="container mx-auto mt-5 flex flex-col">
-        <h1 class="text-xl mb-7 text-center">"{keyword}"の検索結果</h1>
-        <TablatureList tablatures={tablatures} />
+    <div class="container mx-auto mt-5">
+        {
+            tablatures.length ? (
+                <div class="flex flex-col">
+                    <h1 class="text-xl mb-7 text-center">"{keyword}"の検索結果</h1>
+                    <TablatureList tablatures={tablatures} />
+                </div>
+            ) : (
+                <div class="flex flex-col items-center">
+                    <p class="mb-4">一致する検索結果はありませんでした。別のキーワードを試してみてください。</p>
+                    <a href="/" class="btn btn-link">
+                        トップページに戻る
+                    </a>
+                </div>
+            )
+        }
     </div>
 </Layout>
