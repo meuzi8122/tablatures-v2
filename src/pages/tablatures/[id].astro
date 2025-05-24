@@ -32,23 +32,23 @@ const { tablature } = Astro.props;
                 <tbody>
                     <tr>
                         <th>楽曲タイトル</th>
-                        <td>{tablature.title}</td>
+                        <td class="text-right">{tablature.title}</td>
                     </tr>
                     <tr>
                         <th>アーティスト</th>
-                        <td>{tablature.artist.name}</td>
+                        <td class="text-right">{tablature.artist.name}</td>
                     </tr>
                     <tr>
                         <th>楽器</th>
-                        <td>{tablature.instrument}</td>
+                        <td class="text-right">{tablature.instrument}</td>
                     </tr>
                     <tr>
                         <th>TAB譜の作者</th>
-                        <td>{tablature.author || "情報なし"}</td>
+                        <td class="text-right">{tablature.author || "情報なし"}</td>
                     </tr>
                     <tr>
                         <th>配信元サイト</th>
-                        <td>{tablature.source || "情報なし"}</td>
+                        <td class="text-right">{tablature.source || "情報なし"}</td>
                     </tr>
                 </tbody>
             </table>
