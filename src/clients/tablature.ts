@@ -1,53 +1,67 @@
-import { PER_PAGE_TABLATURE_COUNT } from "../constant";
+import { ArtistClient } from "./artist";
 import { CmsClient } from "./cms";
 import type { Tablature, TablatureDetail } from "./model";
-
-type TablatureSearchResult = {
-    tablatures: Tablature[];
-    lastPage: number;
-};
 
 export class TablatureClient {
     private static endpoint = "tablatures";
 
     static async getALLTablatures(): Promise<Tablature[]> {
-        const contents = await new CmsClient(this.endpoint).getALLContents(
-            "id,title,artist.id,artist.name,instrument,url,artworkUrl",
-            { orders: "title" },
-        );
+        const contents = await new CmsClient(this.endpoint).findContents({
+            fields: "id,title,artist.id,artist.name,instrument,url,artworkUrl",
+            orders: "title",
+        });
         return contents.map((content) => this.parseTablature(content));
     }
 
     static async getAllTablatureDetails(): Promise<TablatureDetail[]> {
-        const contents = await new CmsClient(this.endpoint).getALLContents(
-            "id,title,artist.id,artist.name,instrument,url,artworkUrl,source",
-        );
+        const contents = await new CmsClient(this.endpoint).findContents({
+            fields: "id,title,artist.id,artist.name,instrument,url,artworkUrl,source",
+        });
         return contents.map((content) => this.parseTablatureDetail(content));
     }
 
-    static async findTablatures(keyword: string): Promise<TablatureSearchResult> {
-        const { total, contents } = await new CmsClient(this.endpoint).findContents(
-            "id,title,artist.id,artist.name,instrument,url,artworkUrl",
-            {
-                filters: `title[contains]${keyword}`,
-                limit: PER_PAGE_TABLATURE_COUNT,
-                offset: 0,
-            },
-        );
+    static async findTablatures(keyword: string): Promise<Tablature[]> {
+        const artistIds = await ArtistClient.findArtistIds(keyword);
 
-        return {
-            tablatures: contents.map((content) => this.parseTablature(content)),
-            lastPage: Math.ceil(total / PER_PAGE_TABLATURE_COUNT),
-        };
+        const cmsClient = new CmsClient(this.endpoint);
+        const fields = "id,title,artist.id,artist.name,instrument,url,artworkUrl";
+
+        const tablatures1 = (
+            await Promise.all([
+                ...artistIds.map((artistId) =>
+                    cmsClient.findContents({
+                        fields,
+                        filters: `artist[equals]${artistId}`,
+                    }),
+                ),
+            ])
+        ).flatMap((contents) => (contents ? contents.map((content) => this.parseTablature(content)) : []));
+
+        const tablatures1Ids = tablatures1.map((tablature) => tablature.id);
+
+        const tablatures2 = (
+            await cmsClient.findContents({
+                fields,
+                filters: `title[contains]${keyword}`,
+            })
+        ).flatMap((content) => (tablatures1Ids.includes(content.id) ? [] : this.parseTablature(content)));
+
+        return [...tablatures1, ...tablatures2];
     }
 
     /* TODO: zodでレスポンスをバリデーションする？ */
 
     private static parseTablature(content: any): Tablature {
-        return { ...content, instrument: content.instrument[0] };
+        return {
+            id: content.id,
+            title: content.title,
+            artist: content.artist,
+            url: content.url,
+            instrument: content.instrument[0],
+        };
     }
 
     private static parseTablatureDetail(content: any): TablatureDetail {
-        return this.parseTablature(content);
+        return { ...this.parseTablature(content), source: content.source };
     }
 }

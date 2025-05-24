@@ -5,6 +5,12 @@ export class ArtistClient {
     private static endpoint = "artists";
 
     static async getALLArtists(): Promise<Artist[]> {
-        return await new CmsClient(this.endpoint).getALLContents("id,name", { orders: "name" });
+        return await new CmsClient(this.endpoint).findContents({ fields: "id,name", orders: "name" });
+    }
+
+    static async findArtistIds(keyword: string): Promise<string[]> {
+        return (
+            await new CmsClient(this.endpoint).findContents({ fields: "id", filters: `name[contains]${keyword}` })
+        ).map((content) => content.id);
     }
 }

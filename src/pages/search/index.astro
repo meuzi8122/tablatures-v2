@@ -10,21 +10,13 @@ const { searchParams, host } = new URL(Astro.request.url);
 const keyword = searchParams.get("keyword");
 const currentPage = Number(searchParams.get("page")) || 1;
 
-const { lastPage, tablatures } = keyword
-    ? await TablatureClient.findTablatures(keyword)
-    : { lastPage: 1, tablatures: [] };
+const tablatures = await TablatureClient.findTablatures(keyword || "");
 ---
 
-<Layout title={`"{keyword}"の検索結果`}>
+<Layout title={`"${keyword}"の検索結果`}>
     <div class="container mx-auto mt-5 flex flex-col">
         <h1 class="text-xl mb-7 text-center">"{keyword}"の検索結果</h1>
         <TablatureList tablatures={tablatures} />
         <!-- ホスト名（localhost:xxxx）が省略されたページに遷移してしまう  -->
-        <Pagination
-            path={`/search?keyword=${keyword}`}
-            currentPage={currentPage}
-            lastPage={lastPage}
-            hasPageQueryParam={true}
-        />
     </div>
 </Layout>
