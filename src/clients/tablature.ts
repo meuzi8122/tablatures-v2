@@ -62,6 +62,6 @@ export class TablatureClient {
     }
 
     private static parseTablatureDetail(content: any): TablatureDetail {
-        return { ...this.parseTablature(content), source: content.source };
+        return { ...this.parseTablature(content), source: content.source || "サイト名不明" };
     }
 }
