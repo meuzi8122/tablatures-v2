@@ -25,9 +25,9 @@ const { tablature } = Astro.props;
 ---
 
 <Layout title={`${tablature.title} - ${tablature.artist.name}(${tablature.instrument})`}>
-    <div class="container mx-auto mt-5 flex flex-col">
+    <div class="container mx-auto mt-8 flex flex-col">
         <h1 class="text-xl text-center">TAB譜詳細</h1>
-        <div class="overflow-x-auto mt-5">
+        <div class="overflow-x-auto mt-7">
             <table class="table table-zebra">
                 <tbody>
                     <tr>
@@ -44,16 +44,14 @@ const { tablature } = Astro.props;
                     </tr>
                     <tr>
                         <th>配信元サイト</th>
-                        <td class="text-right">{tablature.source || "情報なし"}</td>
+                        <td class="text-right">
+                            <a class="link link-primary" href={tablature.url} target="_blank">
+                                {tablature.source || "サイト名不明"}
+                            </a>
+                        </td>
                     </tr>
                 </tbody>
             </table>
-        </div>
-        <div class="flex justify-center mt-8">
-            <a class="btn btn-primary" href={tablature.url} target="_blank">
-                <LinkIcon />
-                TAB譜を閲覧
-            </a>
         </div>
     </div>
 </Layout>
