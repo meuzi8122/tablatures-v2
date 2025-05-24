@@ -17,6 +17,5 @@ const tablatures = await TablatureClient.findTablatures(keyword || "");
     <div class="container mx-auto mt-5 flex flex-col">
         <h1 class="text-xl mb-7 text-center">"{keyword}"の検索結果</h1>
         <TablatureList tablatures={tablatures} />
-        <!-- ホスト名（localhost:xxxx）が省略されたページに遷移してしまう  -->
     </div>
 </Layout>

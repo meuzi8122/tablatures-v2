@@ -43,6 +43,6 @@ const {
     <div class="container mx-auto mt-5 flex flex-col">
         <h1 class="text-xl mb-7 text-center">{artist.name}のTAB譜</h1>
         <TablatureList tablatures={data} />
-        <Pagination path="/artists" currentPage={currentPage} lastPage={lastPage} />
+        <Pagination path={`/artists/${artist.id}`} currentPage={currentPage} lastPage={lastPage} />
     </div>
 </Layout>

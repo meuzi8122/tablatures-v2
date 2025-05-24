@@ -3,16 +3,17 @@ type Props = {
     path: string;
     currentPage: number;
     lastPage: number;
-    hasPageQueryParam?: boolean;
 };
 
-const { path, currentPage, lastPage, hasPageQueryParam = false } = Astro.props;
+const { path, currentPage, lastPage } = Astro.props;
 
-const prevPage = currentPage < 2 ? currentPage : currentPage - 1;
-const nextPage = lastPage <= currentPage ? currentPage : lastPage;
+/* /artists/[id]/1がマッチせず、ページが存在しない判定になるため */
+function createHref(path: string, page: number) {
+    return page <= 1 ? path : `${path}/${page}`;
+}
 
-const prevPageHref = hasPageQueryParam ? `/${path}&page=${prevPage}` : `/${path}/${prevPage}`;
-const nextPageHref = hasPageQueryParam ? `/${path}&page=${nextPage}` : `/${path}/${nextPage}`;
+const prevPageHref = createHref(path, currentPage < 2 ? currentPage : currentPage - 1);
+const nextPageHref = createHref(path, lastPage <= currentPage ? currentPage : lastPage);
 ---
 
 <div class="join mt-5 justify-center">
