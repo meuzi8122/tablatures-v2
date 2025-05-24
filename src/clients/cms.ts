@@ -2,7 +2,7 @@ import { createClient } from "microcms-js-sdk";
 
 const client = createClient({
     serviceDomain: import.meta.env.SERVICE_DOMAIN,
-    apiKey: import.meta.env.API_KEY as string,
+    apiKey: import.meta.env.API_KEY,
 });
 
 type CmsFetchOption = { orders?: string; filters?: string };
