@@ -1,12 +1,13 @@
 ---
 import Layout from "../layouts/layout.astro";
+import "../styles/global.css";
 ---
 
-<Layout title="ページが見つかりません">
-    <div class="container mx-auto">
-        <div class="flex flex-col items-center">
+<Layout title="お探しのページが見つかりません" hasNavbar={false}>
+    <div class="flex flex-col items-center h-screen">
+        <main class="flex flex-col items-center justify-center flex-grow">
             <p class="mb-4">お探しのページが見つかりません</p>
             <a href="/" class="btn btn-link">トップページに戻る </a>
-        </div>
+        </main>
     </div>
 </Layout>
