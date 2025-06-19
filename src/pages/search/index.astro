@@ -10,24 +10,27 @@ const { searchParams } = new URL(Astro.request.url);
 const keyword = searchParams.get("keyword");
 
 const tablatures = keyword ? await TablatureClient.findTablatures(keyword) : [];
+const hasResults = tablatures.length > 0;
 ---
 
-<Layout title={`"${keyword}"の検索結果`}>
-    <div class="container mx-auto mt-5">
-        {
-            tablatures.length ? (
+<Layout title={`"${keyword}"の検索結果`} hasNavbar={hasResults}>
+    {
+        hasResults ? (
+            <div class="container mx-auto mt-5">
                 <div class="flex flex-col">
                     <h1 class="text-xl mb-7 text-center">"{keyword}"の検索結果</h1>
                     <TablatureList tablatures={tablatures} />
                 </div>
-            ) : (
-                <div class="flex flex-col items-center">
-                    <p class="mb-4">一致する検索結果はありませんでした。別のキーワードを試してみてください。</p>
+            </div>
+        ) : (
+            <div class="flex flex-col items-center h-screen">
+                <div class="flex flex-col items-center justify-center flex-grow">
+                    <p class="mb-4">キーワードに一致する楽曲が見つかりませんでした。別のキーワードをお試しください。</p>
                     <a href="/" class="btn btn-link">
-                        トップページに戻る
+                        トップページに戻る{" "}
                     </a>
                 </div>
-            )
-        }
-    </div>
+            </div>
+        )
+    }
 </Layout>
